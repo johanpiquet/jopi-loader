@@ -69,7 +69,7 @@ export async function resolve(specifier: string, context: any, nextResolve: any)
         let format = "jopi-loader";
         if ((specifierExt === ".css") || (specifierExt === ".scss")) format += "-css";
 
-        console.log("⚠️ jopi-loader found: ", specifier, "format is", format);
+        //console.log("⚠️ jopi-loader found: ", specifier, "format is", format);
 
         return {
             url: new URL(specifier, context.parentURL).href,
