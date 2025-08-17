@@ -1,18 +1,25 @@
-declare module "*.scss" {
+declare module "*.module.scss" {
     const styles: {
         readonly [className: string]: string;
     };
+    
     export default styles;
 }
-declare module "*.sass" {
+
+declare module "*.module.css" {
     const styles: {
         readonly [className: string]: string;
     };
+
     export default styles;
 }
+
 declare module "*.css" {
-    const styles: {
-        readonly [className: string]: string;
-    };
-    export default styles;
+    const filePath: string;
+    export default filePath;
+}
+
+declare module "*.scss" {
+    const filePath: string;
+    export default filePath;
 }

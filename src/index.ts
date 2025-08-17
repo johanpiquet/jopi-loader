@@ -9,6 +9,8 @@ import postcss from "postcss";
 import * as sass from "sass";
 import postcssModules from "postcss-modules"
 
+const nApp = NodeSpace.app;
+
 const extensionForResourceType_nojs = [
     ".css", ".scss",
     ".jpg", ".png", ".jpeg", ".gif", ".svg", ".webp",
@@ -67,7 +69,7 @@ export async function resolve(specifier: string, context: any, nextResolve: any)
 
     if (extensionForResourceType_nojs.includes(specifierExt)) {
         let format = "jopi-loader";
-        if ((specifierExt === ".css") || (specifierExt === ".scss")) format += "-css";
+        if (specifier.endsWith(".module.css") || specifier.endsWith(".module.scss")) format += "-css-module";
 
         //console.log("⚠️ jopi-loader found: ", specifier, "format is", format);
 
@@ -95,13 +97,9 @@ export async function resolve(specifier: string, context: any, nextResolve: any)
 export async function load(url: string, context: any, nextLoad: any) {
     if (context.format?.startsWith("jopi-loader")) {
         if (context.format === 'jopi-loader') {
-            return {
-                source: 'export default {};',
-                format: 'module',
-                shortCircuit: true
-            };
-        } else if (context.format === 'jopi-loader-css') {
-            //console.log("⚠️ jopi-loader format: ", context.format);
+            return returnStringWithPath(fileURLToPath(url));
+        } else if (context.format === 'jopi-loader-css-module') {
+            console.log("⚠️ jopi-loader format: ", context.format);
 
             return await compileScss(fileURLToPath(url));
         }
@@ -111,13 +109,36 @@ export async function load(url: string, context: any, nextLoad: any) {
 }
 
 /**
- * Compile a CSS ou SCSS file to a JavaScript file.
+ * Return the path of the item.
  */
-async function compileScss(filePath: string) {
-    // If the built JS references a CSS/SCSS that lives in src, remap to source
+async function returnStringWithPath(filePath: string) {
+    // Occurs when it's compiled with TypeScript.
     if (!await isFile(filePath)) {
         filePath = await searchSourceOf(filePath);
     }
+
+    const jsSource = `
+const __PATH__ = ${JSON.stringify(filePath)};
+export default __PATH__;
+`;
+
+    return {
+        source: jsSource,
+        format: 'module',
+        shortCircuit: true
+    };
+}
+
+/**
+ * Compile a CSS ou SCSS file to a JavaScript file.
+ */
+async function compileScss(filePath: string) {
+    // Occurs when it's compiled with TypeScript.
+    if (!await isFile(filePath)) {
+        filePath = await searchSourceOf(filePath);
+    }
+
+    const sourceFilePath = path.resolve(filePath);
 
     const ext = path.extname(filePath).toLowerCase();
 
@@ -150,8 +171,9 @@ async function compileScss(filePath: string) {
             })
         ];
 
-        const result = await postcss(plugins).process(css, {from: fromPath, map: false});
-        css = result.css;
+        let res = await postcss(plugins).process(css, {from: fromPath, map: false});
+        css = res.css;
+
     } catch (e: any) {
         console.warn("jopi-loader - PostCSS processing failed:", e?.message || e);
         throw e;
@@ -160,17 +182,18 @@ async function compileScss(filePath: string) {
     // Here __TOKENS__ contain something like {myLocalStyle: "LocalStyleButton__myLocalStyle___n1l3e"}.
     // The goal is to resolve the computed class name and the original name.
 
-    const jsSource = `
-const __CSS__ = ${JSON.stringify(css)};
-const __TOKENS__ = ${JSON.stringify(knownClassNames)};
+    // To known: we don't execute in the same process as the source code.
+    // It's why we can't directly call registerCssModule.
 
-if (typeof document !== 'undefined') {
+    const jsSource = `
+if ((typeof document !== 'undefined') && (typeof(Bun)==="undefined")) {
   const style = document.createElement('style');
   style.setAttribute('type', 'text/css');
   style.appendChild(document.createTextNode(__CSS__));
   document.head.appendChild(style);
 }
-export default __TOKENS__;
+
+export default ${JSON.stringify(knownClassNames)};
 `;
 
     return {
