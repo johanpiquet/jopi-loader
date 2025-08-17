@@ -1,0 +1,29 @@
+{
+  "name": "jopi-loader",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "keywords": ["loader"],
+
+  "type": "module",
+  "description": "Node ESM loader to take in charge non-JS assets (.scss/.sass/.css, images, fonts)",
+
+  "main": "./dist/index.js",
+  "types": "types.d.ts",
+
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./types.d.ts"
+    }
+  },
+
+  "devDependencies": {
+    "@types/node": "latest",
+    "typescript": "5.9"
+  },
+
+  "scripts": {
+    "tsc": "tsc"
+  }
+}
