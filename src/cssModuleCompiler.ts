@@ -35,7 +35,7 @@ export default async function compileScss(filePath: string): Promise<string> {
         const plugins = [
             postcssModules({
                 // The format of the classnames.
-                generateScopedName: '[name]__[local]___[hash:base64:5]',
+                generateScopedName: '[name]__[local]',
                 localsConvention: 'camelCaseOnly',
 
                 // Allow capturing the class names.

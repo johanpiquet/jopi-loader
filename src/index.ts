@@ -2,7 +2,7 @@ import * as NodeModule from 'node:module';
 
 import "jopi-node-space";
 import installBunJsLoader from "./bunJsLoader.ts";
-
+export {cssModuleHandler} from "./esBuildPlugin.ts";
 
 // Guard to avoid recursive self-registration when using Module.register(import.meta.url)
 const __JOPI_LOADER_REGISTERED__ = Symbol.for('jopi-loader:registered');
