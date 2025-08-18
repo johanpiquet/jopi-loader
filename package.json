@@ -23,6 +23,7 @@
     "@deanc/esbuild-plugin-postcss": "^1.0.2",
     "esbuild": "^0.25.6",
     "jopi-node-space": "workspace:*",
+    "jopi-rewrite": "workspace:*",
     "postcss": "^8.4.41",
     "postcss-modules": "^6.0.0",
     "sass": "^1.77.0"
