@@ -53,13 +53,16 @@ export default async function compileScss(filePath: string): Promise<string> {
         throw e;
     }
 
+    knownClassNames.__CSS__ = css;
+    knownClassNames.__FILE_HASH__ = NodeSpace.crypto.md5(filePath);
+
     // Here __TOKENS__ contain something like {myLocalStyle: "LocalStyleButton__myLocalStyle___n1l3e"}.
     // The goal is to resolve the computed class name and the original name.
 
     // To known: we don't execute in the same process as the source code.
     // It's why we can't directly call registerCssModule.
 
-    return `
+    /*return `
 const __CSS__ = ${JSON.stringify(css)};
 
 let global = typeof window !== "undefined" ? window : typeof globalThis !== "undefined" ? globalThis : undefined;
@@ -76,5 +79,7 @@ if (typeof global !== "undefined") {
 }
 
 export default ${JSON.stringify(knownClassNames)};
-`;
+`;*/
+
+    return `export default ${JSON.stringify(knownClassNames)};`;
 }
