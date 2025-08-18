@@ -1,5 +1,6 @@
 import * as NodeModule from 'node:module';
-// !!! exports are done inside types.d.ts !!!
+export { cssModuleHandler } from "./esBuildPlugin.js";
+export { scssToCss } from "./cssModuleCompiler.js";
 import "jopi-node-space";
 import installBunJsLoader from "./bunJsLoader.js";
 // Allow initializing his core and stop some difficulties with import orders.

@@ -1,45 +1,43 @@
 {
   "name": "jopi-loader",
-  "version": "1.0.4",
+  "version": "1.0.9",
   "private": false,
   "license": "MIT",
   "keywords": ["loader"],
   "description": "Node ESM loader to take in charge non-JS assets (.scss/.sass/.css, images, fonts)",
-
-  "engines": {"bun": "^1.2.18", "node": ">=22.18.0"},
-
+  "engines": {
+    "bun": "^1.2.18",
+    "node": ">=22.18.0"
+  },
   "main": "./dist/index.js",
   "types": "types.d.ts",
   "type": "module",
-
   "scripts": {
     "tsc": "tsc",
-    "bun-install": "bun install",
-    "bun-publish": "tsc; bun publish",
-
+    "bun-install": "bun install --registry http://localhost:4873/",
+    "bun-update": "bun update --registry http://localhost:4873/",
+    "npm-publish": "npm publish --registry http://localhost:4873/",
+    "npm-unpublish": "npm unpublish --registry http://localhost:4873/",
     "bun-link": "bun link"
   },
-
   "exports": {
     ".": {
       "import": "./dist/index.js",
       "types": "./types.d.ts"
     }
   },
-
   "devDependencies": {
     "@types/bun": "latest",
     "@types/node": "latest",
     "@types/sass": "latest",
-    "typescript": "5.9"
+    "typescript": "~5.9.2"
   },
-
   "dependencies": {
-    "esbuild": "^0.25.6",
+    "esbuild": "^0.25.9",
     "jopi-node-space": "latest",
-    "jopi-rewrite": "latest",
-    "postcss": "^8.4.41",
-    "postcss-modules": "^6.0.0",
-    "sass": "^1.77.0"
+    "jopi-rewrite": "^1.0.9",
+    "postcss": "^8.5.6",
+    "postcss-modules": "^6.0.1",
+    "sass": "^1.90.0"
   }
 }
