@@ -40,3 +40,4 @@ export async function searchSourceOf(scriptPath: string) {
 
     return scriptPath;
 }
+

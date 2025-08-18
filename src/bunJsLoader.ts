@@ -1,4 +1,5 @@
-import cssModuleCompiler from "./cssModuleCompiler.ts";
+import {supportedExtensionsRegExp} from "./rules.ts";
+import {transformFile} from "./transform.ts";
 
 // https://bun.com/docs/runtime/plugins
 
@@ -6,28 +7,24 @@ export default function installBunJsLoader() {
     Bun.plugin({
         name: "jopi-loader",
         setup(build) {
-            build.onLoad({filter: /\.(css|scss)$/}, cssHandler);
+            build.onLoad({filter: supportedExtensionsRegExp}, jopiHandler);
         },
     });
 }
 
-const cssHandler: Bun.OnLoadCallback = async ({path}) => {
-    if (path.endsWith(".module.css") || (path.endsWith(".module.scss"))) {
-        const jsSource = await cssModuleCompiler(path);
+const jopiHandler: Bun.OnLoadCallback = async ({path}) => {
+    let idx = path.indexOf("?");
+    let options = "";
 
-        return {
-            contents: jsSource,
-            loader: "js",
-        };
-    } else {
-        let jsSource = `
-const __PATH__ = ${JSON.stringify(path)};
-if (global.jopiOnCssImported) global.jopiOnCssImported(__PATH__);
-export default __PATH__;
-        `
-        return {
-            contents: jsSource,
-            loader: "js",
-        };
+    if (idx !== -1) {
+        options = path.substring(idx + 1);
+        path = path.substring(0, idx);
     }
-};
+
+    const res = await transformFile(path, options);
+
+    return {
+        contents: res.text,
+        loader: "js",
+    };
+}

@@ -4,14 +4,8 @@ import "jopi-node-space";
 import {fileURLToPath} from "node:url";
 import path from "node:path";
 import {isFile, searchSourceOf} from "./tools.ts";
-import cssModuleCompiler from "./cssModuleCompiler.ts";
-
-const extensionForResourceType_nojs = [
-    ".css", ".scss",
-    ".jpg", ".png", ".jpeg", ".gif", ".svg", ".webp",
-    ".avif", ".ico",
-    ".woff", ".woff2", ".ttf", ".txt",
-];
+import {supportedExtensions} from "./rules.ts";
+import {transformFile} from "./transform.ts";
 
 // Guard to avoid recursive self-registration when using Module.register(import.meta.url)
 const __JOPI_LOADER_REGISTERED__ = Symbol.for('jopi-loader:registered');
@@ -62,17 +56,16 @@ export async function resolve(specifier: string, context: any, nextResolve: any)
         return nextResolve(specifier, context);
     }
 
-    const specifierExt = path.extname(specifier);
+    // Remove what is after the "?" to be able to test the extension.
+    //
+    const bckSpecifier = specifier;
+    let idx = specifier.indexOf("?");
+    if (idx!==-1) specifier = specifier.substring(0 ,idx);
 
-    if (extensionForResourceType_nojs.includes(specifierExt)) {
-        let format = "jopi-loader";
-        if (specifier.endsWith(".module.css") || specifier.endsWith(".module.scss")) format += "-css-module";
-
-        //console.log("⚠️ jopi-loader found: ", specifier, "format is", format);
-
+    if (supportedExtensions.includes(path.extname(specifier))) {
         return {
-            url: new URL(specifier, context.parentURL).href,
-            format: format,
+            url: new URL(bckSpecifier, context.parentURL).href,
+            format: "jopi-loader",
             shortCircuit: true
         };
     }
@@ -92,43 +85,30 @@ export async function resolve(specifier: string, context: any, nextResolve: any)
 
 // noinspection JSUnusedGlobalSymbols
 export async function load(url: string, context: any, nextLoad: any) {
-    if (context.format?.startsWith("jopi-loader")) {
-        if (context.format === 'jopi-loader') {
-            return returnStringWithPath(fileURLToPath(url));
-        } else if (context.format === 'jopi-loader-css-module') {
-            //console.log("⚠️ jopi-loader format: ", context.format);
+    if (context.format=== "jopi-loader") {
+        let idx = url.indexOf("?");
+        let options = "";
 
-            const jsSource = await cssModuleCompiler(fileURLToPath(url));
-
-            return {
-                source: jsSource,
-                format: 'module',
-                shortCircuit: true
-            };
+        if (idx !== -1) {
+            options = url.substring(idx + 1);
+            url = url.substring(0, idx);
         }
+
+        let filePath = fileURLToPath(url);
+
+        // Occurs when it's compiled with TypeScript.
+        if (!await isFile(filePath)) {
+            filePath = await searchSourceOf(filePath);
+        }
+
+        let res = await transformFile(filePath, options);
+
+        return {
+            source: res.text,
+            format: 'module',
+            shortCircuit: true
+        };
     }
 
     return nextLoad(url, context);
-}
-
-/**
- * Return the path of the item.
- */
-async function returnStringWithPath(filePath: string) {
-    // Occurs when it's compiled with TypeScript.
-    if (!await isFile(filePath)) {
-        filePath = await searchSourceOf(filePath);
-    }
-
-    const jsSource = `
-const __PATH__ = ${JSON.stringify(filePath)};
-if (global.jopiOnCssImported) global.jopiOnCssImported(__PATH__);
-export default __PATH__;
-`;
-
-    return {
-        source: jsSource,
-        format: 'module',
-        shortCircuit: true
-    };
 }
