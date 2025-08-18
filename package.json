@@ -1,6 +1,6 @@
 {
   "name": "jopi-loader",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
   "license": "MIT",
   "keywords": ["loader"],
@@ -14,7 +14,8 @@
 
   "scripts": {
     "tsc": "tsc",
-    "npm-publish": "npm publish --access public"
+    "bun-install": "bun install",
+    "bun-publish": "bun publish"
   },
 
   "exports": {
@@ -31,10 +32,9 @@
   },
 
   "dependencies": {
-    "@deanc/esbuild-plugin-postcss": "^1.0.2",
     "esbuild": "^0.25.6",
-    "jopi-node-space": "workspace:*",
-    "jopi-rewrite": "workspace:*",
+    "jopi-node-space": "latest",
+    "jopi-rewrite": "latest",
     "postcss": "^8.4.41",
     "postcss-modules": "^6.0.0",
     "sass": "^1.77.0"
