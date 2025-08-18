@@ -1,21 +1,23 @@
 {
   "name": "jopi-loader",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": false,
   "license": "MIT",
   "keywords": ["loader"],
-  "type": "module",
   "description": "Node ESM loader to take in charge non-JS assets (.scss/.sass/.css, images, fonts)",
 
   "engines": {"bun": "^1.2.18", "node": ">=22.18.0"},
 
   "main": "./dist/index.js",
   "types": "types.d.ts",
+  "type": "module",
 
   "scripts": {
     "tsc": "tsc",
     "bun-install": "bun install",
-    "bun-publish": "bun publish"
+    "bun-publish": "bun publish",
+
+    "bun-link": "bun link"
   },
 
   "exports": {

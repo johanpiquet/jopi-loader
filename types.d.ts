@@ -1,4 +1,6 @@
-/// <reference path="./dist/index.d.ts" />
+export * from "./dist/index.d.ts";
+export {cssModuleHandler} from "./esBuildPlugin.ts";
+export {scssToCss} from "./cssModuleCompiler.ts";
 
-// Allow Typescript checking to be ok when importing an extension.
+// Garde les déclarations globales (ex: *.css, *.scss, etc.)
 /// <reference path="./src/extensions.d.ts" />

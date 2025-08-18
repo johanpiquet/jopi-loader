@@ -1,10 +1,9 @@
 import * as NodeModule from 'node:module';
 
-import "jopi-node-space";
+// !!! exports are done inside types.d.ts !!!
 
+import "jopi-node-space";
 import installBunJsLoader from "./bunJsLoader.ts";
-export {cssModuleHandler} from "./esBuildPlugin.ts";
-export {scssToCss} from "./cssModuleCompiler.ts";
 
 // Allow initializing his core and stop some difficulties with import orders.
 import "jopi-rewrite";
