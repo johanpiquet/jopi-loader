@@ -29,6 +29,7 @@ export async function resolve(specifier: string, context: any, nextResolve: any)
         if (await isFile(filePath)) {
             return nextResolve(moduleName, context);
         }
+
         return undefined;
     }
 
@@ -44,6 +45,7 @@ export async function resolve(specifier: string, context: any, nextResolve: any)
                 return res;
             }
         }
+
         // Will throw an error.
         return nextResolve(specifier, context);
     }
@@ -120,6 +122,7 @@ async function returnStringWithPath(filePath: string) {
 
     const jsSource = `
 const __PATH__ = ${JSON.stringify(filePath)};
+if (global.jopiOnCssImported) global.jopiOnCssImported(__PATH__);
 export default __PATH__;
 `;
 

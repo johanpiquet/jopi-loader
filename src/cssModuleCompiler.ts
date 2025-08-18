@@ -21,8 +21,7 @@ export default async function compileScss(filePath: string): Promise<string> {
 
     if (ext === ".scss") {
         // Compile SCSS to CSS
-        const res = sass.compile(filePath, { style: 'expanded' });
-        css = res.css.toString();
+        css = scssToCss(filePath);
         fromPath = filePath.replace(/\.scss$/i, '.css');
     } else {
         css = await fs.readFile(filePath, 'utf-8');
@@ -62,24 +61,10 @@ export default async function compileScss(filePath: string): Promise<string> {
     // To known: we don't execute in the same process as the source code.
     // It's why we can't directly call registerCssModule.
 
-    /*return `
-const __CSS__ = ${JSON.stringify(css)};
-
-let global = typeof window !== "undefined" ? window : typeof globalThis !== "undefined" ? globalThis : undefined;
-
-if (typeof global !== "undefined") {
-    let onCss = global["jopiloader-oncss"];
-    
-    if (onCss) onCss(__CSS__); else if (typeof document !== "undefined") {
-      const style = document.createElement('style');
-      style.setAttribute('type', 'text/css');
-      style.appendChild(document.createTextNode(__CSS__));
-      document.head.appendChild(style);
-    }
+    return `export default ${JSON.stringify(knownClassNames)};`;
 }
 
-export default ${JSON.stringify(knownClassNames)};
-`;*/
-
-    return `export default ${JSON.stringify(knownClassNames)};`;
+export function scssToCss(filePath: string): any {
+    const res = sass.compile(filePath, { style: 'expanded' });
+    return res.css.toString();
 }
