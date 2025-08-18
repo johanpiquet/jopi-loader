@@ -1,24 +1,33 @@
 {
   "name": "jopi-loader",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "license": "MIT",
   "keywords": ["loader"],
   "type": "module",
   "description": "Node ESM loader to take in charge non-JS assets (.scss/.sass/.css, images, fonts)",
+
   "main": "./dist/index.js",
   "types": "types.d.ts",
+
+  "scripts": {
+    "tsc": "tsc",
+    "npm-publish": "npm publish --access public"
+  },
+
   "exports": {
     ".": {
       "import": "./dist/index.js",
       "types": "./types.d.ts"
     }
   },
+
   "devDependencies": {
     "@types/node": "latest",
     "@types/sass": "latest",
     "typescript": "5.9"
   },
+
   "dependencies": {
     "@deanc/esbuild-plugin-postcss": "^1.0.2",
     "esbuild": "^0.25.6",
@@ -27,8 +36,5 @@
     "postcss": "^8.4.41",
     "postcss-modules": "^6.0.0",
     "sass": "^1.77.0"
-  },
-  "scripts": {
-    "tsc": "tsc"
   }
 }
