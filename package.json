@@ -1,6 +1,6 @@
 {
   "name": "jopi-loader",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "private": false,
   "license": "MIT",
   "keywords": ["loader"],
@@ -15,7 +15,7 @@
   "scripts": {
     "tsc": "tsc",
     "bun-install": "bun install",
-    "bun-publish": "bun publish",
+    "bun-publish": "tsc; bun publish",
 
     "bun-link": "bun link"
   },
@@ -28,6 +28,7 @@
   },
 
   "devDependencies": {
+    "@types/bun": "latest",
     "@types/node": "latest",
     "@types/sass": "latest",
     "typescript": "5.9"
