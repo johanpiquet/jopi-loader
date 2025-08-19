@@ -1,6 +1,6 @@
 {
   "name": "jopi-loader",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "private": false,
   "license": "MIT",
   "keywords": ["loader"],
@@ -12,6 +12,11 @@
   "main": "./dist/index.js",
   "types": "types.d.ts",
   "type": "module",
+
+  "bin": {
+    "jopi": "bin/jopi.js"
+  },
+
   "scripts": {
     "tsc": "tsc",
     "bun-publish": "bun publish"
