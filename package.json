@@ -14,11 +14,7 @@
   "type": "module",
   "scripts": {
     "tsc": "tsc",
-    "bun-install": "bun install --registry http://localhost:4873/",
-    "bun-update": "bun update --registry http://localhost:4873/",
-    "npm-publish": "npm publish --registry http://localhost:4873/",
-    "npm-unpublish": "npm unpublish --registry http://localhost:4873/",
-    "bun-link": "bun link"
+    "bun-publish": "bun publish"
   },
   "exports": {
     ".": {
@@ -34,8 +30,8 @@
   },
   "dependencies": {
     "esbuild": "^0.25.9",
-    "jopi-node-space": "latest",
-    "jopi-rewrite": "^1.0.9",
+    "jopi-node-space": "workspace: *",
+    "jopi-rewrite": "workspace: *",
     "postcss": "^8.5.6",
     "postcss-modules": "^6.0.1",
     "sass": "^1.90.0"
