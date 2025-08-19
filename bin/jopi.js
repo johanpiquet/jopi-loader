@@ -5,7 +5,7 @@ import path from 'node:path';
 import fs from 'node:fs';
 
 function printUsageAndExit() {
-  console.error('Usage: jopin <script.{ts,tsx,js,mjs,cjs}> [-- <args...>]');
+  console.error('Jopi v1 - Usage: jopi <script.{ts,tsx,js,mjs,cjs}> [-- <args...>]');
   process.exit(1);
 }
 
@@ -14,10 +14,12 @@ function findExecutable(cmd) {
   if (process.platform === 'win32') {
     const exts = process.env.PATHEXT ? process.env.PATHEXT.split(';') : ['.EXE', '.CMD', '.BAT'];
     const paths = (process.env.PATH || '').split(path.delimiter);
+
     for (const p of paths) {
       for (const ext of exts) {
         const full = path.join(p, cmd + ext.toLowerCase());
         if (fs.existsSync(full)) return full;
+
         const fullUpper = path.join(p, cmd + ext);
         if (fs.existsSync(fullUpper)) return fullUpper;
       }
@@ -29,18 +31,14 @@ function findExecutable(cmd) {
 
 function run() {
   const argv = process.argv.slice(2);
-  if (argv.length === 0) {
-    printUsageAndExit();
-  }
+  if (argv.length === 0) printUsageAndExit();
 
   // Support a "--" separator between script and its args, but also accept without it
   let scriptPath = argv[0];
   let scriptIndex = 0;
 
   // If first arg is an option, it's an error for our simple runner
-  if (scriptPath.startsWith('-')) {
-    printUsageAndExit();
-  }
+  if (scriptPath.startsWith('-')) printUsageAndExit();
 
   // Resolve to an absolute path for clarity; do not check existence here to allow Node/Bun to error consistently
   const absScript = path.isAbsolute(scriptPath) ? scriptPath : path.resolve(process.cwd(), scriptPath);
@@ -51,8 +49,7 @@ function run() {
 
   // Decide runtime
   const isTs = ext === '.ts' || ext === '.tsx';
-  let cmd;
-  let args;
+  let cmd, args;
 
   if (isTs) {
     // Prefer Bun for TypeScript, using the jopi-loader as a preload plugin
@@ -76,9 +73,7 @@ function run() {
   });
 
   child.on('error', (err) => {
-    if (isTs) {
-      console.error('Failed to start Bun. Make sure Bun is installed: https://bun.sh');
-    }
+    if (isTs) console.error('Failed to start Bun. Make sure Bun is installed: https://bun.sh');
     console.error(err.message || String(err));
     process.exit(1);
   });
