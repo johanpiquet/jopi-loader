@@ -18,10 +18,9 @@ It's also export a module for EsBuild, to enable css-modules.
 
 ## How to use?
 
-The loader need to be loader before others modules, it's why you need to use a special functionality.
+The loader needs to be loader before other modules, it's why you need to use a special functionality.
 
-
-Exemple for node.js:
+Example for node.js:
 ```
 node --import jopi-loader ./myScript.js
 ```
@@ -52,8 +51,6 @@ This file allows Typescript to know how to handle this imports.
 }
 ```
 
-
-
 ## The 'jopi' command line tools
 
 This tool allows executing node.js or bun.js while preloading 'jopi-loader'
@@ -64,13 +61,13 @@ but also the package you set in your `package.json` in the section `preload`.
 The tool is available once the package `jopi-loader` is installed.
 
 ```
-npx jopi ./myscript.js
+npx jopin ./myscript.js
 ```
 
 or if installed globally:
 
 ```
-jopi ./myscript.js 
+jopin ./myscript.js 
 ```
 
 > You use it with the same option as what you would do with node.js.
@@ -95,9 +92,8 @@ You can use the `preload` section of your `package.json` in order to set extra i
 
 ## Using bun.js
 
-The jopi tool will automatically use bun.js runtime if the source code is a TypeScript file.
+The `jopib` tool allows doing the same with bun.js.
 
 ```
-# Automicatically select bun.js
-jopi ./src/index.ts
+jopib ./src/index.ts
 ```

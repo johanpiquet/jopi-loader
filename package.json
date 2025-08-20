@@ -15,7 +15,8 @@
   "type": "module",
 
   "bin": {
-    "jopi": "bin/jopi.js"
+    "jopin": "bin/jopin.js",
+    "jopib": "bin/jopib.js"
   },
 
   "scripts": {
