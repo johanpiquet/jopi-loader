@@ -1,6 +1,6 @@
 {
   "name": "jopi-loader",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "private": false,
   "license": "MIT",
   "keywords": ["loader"],
@@ -21,7 +21,10 @@
 
   "scripts": {
     "tsc": "npx tsc",
-    "bun-publish": "bun publish"
+    "bun-publish": "bun publish",
+
+    "remove-global": "npm remove jopi-loader --global",
+    "update-global": "npm install jopi-loader@latest --global"
   },
 
   "devDependencies": {
