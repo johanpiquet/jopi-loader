@@ -4,6 +4,8 @@ import {spawn} from 'node:child_process';
 import path from 'node:path';
 import fs from 'node:fs';
 
+console.log("Jopi v1.1.0");
+
 function printUsageAndExit() {
   console.error('Jopi v1 - Usage: jopi <script.{ts,tsx,js,mjs,cjs}> [-- <args...>]');
   process.exit(1);
@@ -29,11 +31,73 @@ function findExecutable(cmd) {
   return cmd; // Let spawn resolve
 }
 
+function findPackageJson(startPath) {
+  let currentDir = startPath;
+
+  while (true) {
+    const packagePath = path.join(currentDir, 'package.json');
+    if (fs.existsSync(packagePath)) {
+      return packagePath;
+    }
+
+    const parentDir = path.dirname(currentDir);
+    if (parentDir === currentDir) {
+      // Reached root directory
+      break;
+    }
+    currentDir = parentDir;
+  }
+
+  return null;
+}
+
+const knowPackagesToPreload = ["jopi-rewrite"];
+
+function addKnownPackages(toPreload, toSearch) {
+  if (!toSearch) return;
+
+  for (const key in toSearch) {
+    if (knowPackagesToPreload.includes(key)) {
+      toPreload.push(key);
+    }
+  }
+}
+
+function getPreloadModules(scriptPath) {
+  const packageJsonPath = findPackageJson(path.dirname(scriptPath));
+
+  if (!packageJsonPath) {
+    return [];
+  }
+
+  try {
+    const packageContent = fs.readFileSync(packageJsonPath, 'utf8');
+    const packageData = JSON.parse(packageContent);
+
+    let toPreload = [];
+
+    if (packageData.preload) {
+      if (Array.isArray(packageData.preload)) {
+        toPreload = [...toPreload, ...packageData.preload];
+      }
+    }
+
+    addKnownPackages(toPreload, packageData["devDependencies"]);
+    addKnownPackages(toPreload, packageData["dependencies"]);
+
+    return toPreload;
+
+  } catch {
+    // Ignore parsing errors and continue without preload modules.
+    return [];
+  }
+}
+
 function run() {
   const argv = process.argv.slice(2);
   if (argv.length === 0) printUsageAndExit();
 
-  // Support a "--" separator between script and its args, but also accept without it
+  // Support a "--" separator between a script and its args, but also accept without it
   let scriptPath = argv[0];
   let scriptIndex = 0;
 
@@ -51,14 +115,17 @@ function run() {
   const isTs = ext === '.ts' || ext === '.tsx';
   let cmd, args;
 
+  let toPreload = getPreloadModules(absScript);
+  toPreload = ["jopi-loader", ...toPreload];
+
   if (isTs) {
     // Prefer Bun for TypeScript, using the jopi-loader as a preload plugin
     cmd = findExecutable('bun');
-    args = ['--preload', 'jopi-loader', absScript, ...rest];
+    args = ['--preload', ...toPreload, absScript, ...rest];
   } else {
     // Use Node for JS, ensuring the loader is imported
     cmd = process.execPath; // Node executable
-    args = ['--import', 'jopi-loader', absScript, ...rest];
+    args = ['--import', ...toPreload, absScript, ...rest];
   }
 
   const child = spawn(cmd, args, { stdio: 'inherit' });
