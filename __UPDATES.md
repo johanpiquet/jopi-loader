@@ -1,3 +1,6 @@
+**2025-08-21**                                  --> npm version 1.0.13
+* Corrections
+
 **2025-08-20**
 * Internal logic in now inside project jopi-loader-tools
 
