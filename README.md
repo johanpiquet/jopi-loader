@@ -11,7 +11,7 @@ with a high libary compatibility.
 
 * For Node.js, it allows:
   * Importing CSS, images, font.
-  * When imported the value returned is the full path to the resource.
+  * When imported, the value returned is the full path to the resource.
   * Ex: `import cssFilePath from "my-style.css"`.
 
 It's also export a module for EsBuild, to enable css-modules.
@@ -41,12 +41,12 @@ See: https://bun.com/docs/runtime/plugins
 ## Typescript config
 
 If you are using TypeScript, you need an extra entry in your `tsconfig.json` file.
-This file allows Typescript to know how to handle this imports.
+This file allows TypeScript to know how to handle these imports.
 
 ```json
 {
   "compilerOptions": {
-    "types": ["jopi-loader"]
+    "types": ["@jopi-loader/types"]
   }
 }
 ```
