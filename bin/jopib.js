@@ -13,8 +13,9 @@ const VERSION = "v1.1.1"
 const FORCE_LOG = false;
 const LOG = process.env.JOPI_LOG || FORCE_LOG;
 
-if (LOG) console.log("Jopi version:", VERSION);
+const isWin32 = path.sep === '\\';
 
+if (LOG) console.log("Jopi version:", VERSION);
 
 function getRelativePath(absolutePath) {
   return path.relative(process.cwd(), absolutePath);
@@ -38,12 +39,12 @@ function findPackageEntry(packagePath) {
     }
   }
 
-  // >>> "main" not set? Try commun path.
+  // >>> "main" not set? Try all common path.
 
   const commonPaths = [
-    'dist/index.js',
-    'lib/index.js',
-    'src/index.js',
+    path.join('dist', 'index.js'),
+    path.join('lib', 'index.js'),
+    path.join('src', 'index.js'),
     'index.js'
   ];
 
@@ -53,7 +54,7 @@ function findPackageEntry(packagePath) {
   }
 
   // Default to dist/index.js
-  return path.join(packagePath, 'dist/index.js');
+  return path.join(packagePath, 'dist', 'index.js');
 }
 
 function findNodePackage(packageName) {
@@ -79,7 +80,6 @@ function findNodePackage(packageName) {
   return null;
 }
 
-
 function findPackageJson() {
   let currentDir = process.cwd();
 
@@ -97,6 +97,10 @@ function findPackageJson() {
   }
 
   return null;
+}
+
+function convertToLinuxPath(filePath) {
+  return filePath.replace(/\\/g, '/');
 }
 
 const knowPackagesToPreload = ["jopi-rewrite"];
@@ -185,6 +189,7 @@ function run() {
     if (!pkgPath) return;
 
     let foundPath = getRelativePath(findPackageEntry(pkgPath));
+    if (isWin32) foundPath = convertToLinuxPath(foundPath);
 
     if (foundPath) {
       preloadArgs.push(FLAG);
