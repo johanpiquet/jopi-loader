@@ -188,9 +188,9 @@ function run() {
     const pkgPath = findNodePackage(pkg);
     if (!pkgPath) return;
 
-    let foundPath = getRelativePath(findPackageEntry(pkgPath));
+    let foundPath = getRelativePath(findPackageEntry(pkgPath));        
     if (isWin32) foundPath = convertToLinuxPath(foundPath);
-
+         
     if (foundPath) {
       preloadArgs.push(FLAG);
       preloadArgs.push(foundPath);
@@ -201,8 +201,13 @@ function run() {
   if (LOG) console.log("Jopi - Using " + TOOL + " from:", cmd);
   let args = [...preloadArgs, ...argv];
 
+  const cwd = process.cwd();
+  
+  if (LOG) console.log("Use current working dir:", cwd);
   if (LOG) console.log("Jopi - Executing:", cmd, ...args);
-  const child = spawn(cmd, args, { stdio: 'inherit' });
+
+  let useShell = cmd.endsWith('.cmd') || cmd.endsWith('.bat') || cmd.endsWith('.sh');
+  const child = spawn(cmd, args, { stdio: 'inherit', cwd, shell: useShell });
 
   child.on('exit', (code, signal) => {
     if (signal) process.kill(process.pid, signal);
