@@ -110,7 +110,7 @@ To disable it:
 
 #### Setting extra preload
 
-This allows to set other library for preloading.
+This allows setting another library for preloading.
 It's mainly used for plugins customizing the behaviors of `jopin`.
 
 ```json title="Sample package.json"
@@ -126,4 +126,16 @@ It's mainly used for plugins customizing the behaviors of `jopin`.
 
 > The package `jopi-rewrite` is always imported if found in your dependencies.
 
+### Integrating browser auto-refresh
+
+`jopin` allows automatic refresh of the browser when a source change is found.
+It's a functionality that is straightforward to add in your server code.
+
+To do it, you have to use this function of the library `@jopi-loader/client`:
+* `isSourceWatchingEnabled()`: allows knowing if we are using jopin and if he is in watching mode.
+* `isBrowserRefreshEnabled()`: is true if this functionnality is enabled.
+* `getBrowserRefreshHtmlSnippet()`: get a snippet to include in your HTML page.  
+* `declareServerReady()`: say jopin that the server is ready.
+* `mustWaitServerReady()`: say jopin that he must wait bedore refresh the browser.
+* `askRefreshingBrowser()`: ask jopin to refresh the browser content.
 
