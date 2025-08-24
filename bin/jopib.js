@@ -2,4 +2,4 @@
 
 import {jopiLauncherTool} from "@jopi-loader/tools";
 
-jopiLauncherTool("bun");
+jopiLauncherTool("bun").then();

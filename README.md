@@ -2,31 +2,49 @@
 
 ## What is it?
 
-It's a loader, which allows coustom imports for types for node.js and bun.js. His main goal is allowing doing React SSR (server side)
-with a high libary compatibility.
+It's a loader, which has two goals:
+* Allowing custom imports for node.js and bun.js.
+* Offer watcher doing automatic restart on file change and automatic browser refresh.
 
-* For Node.js and bun.js, it allows:
-  * Importing css module `import style from "style.module.css`.
-  * Importing scss module `import style from "style.module.scss`.
+## Custom imports
 
-* For Node.js, it allows:
-  * Importing CSS, images, font.
-  * When imported, the value returned is the full path to the resource.
-  * Ex: `import cssFilePath from "my-style.css"`.
+### What are custom imports?
 
-It's also export a module for EsBuild, to enable css-modules.
+With node.js, you can't import a CSS file. Doing this `import "./my-css.scss` throw an error.
+It's a matter if you want to do React SSR (Server Side Rendering).
 
-## How to use?
+The goal of jopi-loader, is to enable this type of import.
+It's doing it by mimicking `Vite.js`, which allows importing CSS / image / ...
 
-The loader needs to be loader before other modules, it's why you need to use a special functionality.
+* Importing simple css/scss: `import "./my-css.scss`.
+* Importing css/scss modules `import style from "style.module.scss`.
 
-Example for node.js:
+* Importing images/text/... :
+  * `import serverFilePath from "./my-image.png`.
+  * `import asDataUrl from "./my-image.png?inline`.
+  * `import asRawText from "./my-text.txt?raw`.
+
+> **Warning** - Importing CSS and image file have different behaviors:
+>  * With Vite.js, we get the url.
+>  * Here we get the absolute path on the server.
+>
+> It's why you must add a path-converting step in your code, which is specific to your web-framework technology.
+
+### How to enable it?
+
+The easier way, is to use the command line tools `jopin` (for node) or `jopib` (for bun).
+
+**You use it as a replacement for node / bun.**  
+Where you type: `node ./myScript.js`, you will do `jopin ./myScript.js`.
+
+> This tools are compatible with debugging, doing that you can simply change
+> the setting of your IDE to use jopin/jopib as a drop-in replacement.
+> 
+> The linux command `which jopin` give you the installation path.
+> 
+If you want to manually run the loader, you have to use special node/bun options:
 ```
 node --import jopi-loader ./myScript.js
-```
-
-Exemple for bun.js:
-```
 bun --preload jopi-loader ./myScript.js
 ```
 
@@ -35,8 +53,6 @@ With bun, you can also use a `bunfig.toml` file.
 ```toml
 preload = ["jopi-loader"]
 ```
-
-See: https://bun.com/docs/runtime/plugins
 
 ## Typescript config
 
@@ -51,31 +67,51 @@ This file allows TypeScript to know how to handle these imports.
 }
 ```
 
-## The 'jopi' command line tools
+## The 'jopin' command line tools
 
-This tool allows executing node.js or bun.js while preloading 'jopi-loader'
-but also the package you set in your `package.json` in the section `preload`.
+This tool allows executing node.js or bun.js while preloading 'jopi-loader'.
+It'd also automatically enable source change watching, restarting the server when sources are updated,
+and a lot of interesting things!
+
+> If you are using bun.js, then it's the tool `jopib`.
 
 ### Executing
 
+You need to install the tool globally: `npm install jopi-loader --global`.
+Doing it make `jopin` available anywhere on your system.
+
+Once installed, you use it as a drop-in replacement for node.js.
+Where you type `node` now you type `jopin'.
 The tool is available once the package `jopi-loader` is installed.
 
+### Configuring
+
+Extra sections in `package.json` allows to configure the tool behaviors.
+
+#### Watching dirs
+
+`jopin` automatically watch source change when you are not in production mode.
+To disable it:
+* You must set the environment variable `NODE_ENV` to value 'production'.
+* Or disable it by using the settings in `package.json`.
+
+```json title="Sample package.json"
+{
+  "scripts": {},
+  "dependencies": {},
+  "watch": false,   // disable watching
+  "watch": true,    // enable it, even if production mode
+  "watch": [        // extra directories to watch
+    "./www",
+    "./res"
+  ]
+}
 ```
-npx jopin ./myscript.js
-```
 
-or if installed globally:
+#### Setting extra preload
 
-```
-jopin ./myscript.js 
-```
-
-> You use it with the same option as what you would do with node.js.
-> It's also compatible with WebStorm debugger.
-
-### Setting extra preload
-
-You can use the `preload` section of your `package.json` in order to set extra imports.
+This allows to set other library for preloading.
+It's mainly used for plugins customizing the behaviors of `jopin`.
 
 ```json title="Sample package.json"
 {
@@ -90,10 +126,4 @@ You can use the `preload` section of your `package.json` in order to set extra i
 
 > The package `jopi-rewrite` is always imported if found in your dependencies.
 
-## Using bun.js
 
-The `jopib` tool allows doing the same with bun.js.
-
-```
-jopib ./src/index.ts
-```
