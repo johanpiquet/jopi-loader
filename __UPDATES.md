@@ -1,3 +1,6 @@
+**2025-08-24**
+* Binary tools are now using @jopi-loader/tools
+
 **2025-08-21**                                  --> npm version 1.0.13
 * Corrections
 
