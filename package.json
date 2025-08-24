@@ -21,7 +21,9 @@
   },
 
   "scripts": {
+    "tscgo": "npx tsgo",
     "tsc": "npx tsc",
+
     "bun-publish": "bun publish",
 
     "remove-global": "npm remove jopi-loader --global",
