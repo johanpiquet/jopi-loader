@@ -25,7 +25,10 @@
     "bun-publish": "bun publish",
 
     "remove-global": "npm remove jopi-loader --global",
-    "update-global": "npm install jopi-loader@latest --global"
+    "update-global": "npm install jopi-loader@latest --global",
+
+    "install-jopin": "ln -s /Users/johan/Projets/jopiWorkspace/_jopi-loader/jopi-loader/bin/jopin.js ~/.nvm/versions/node/v24.5.0/bin/jopin",
+    "install-jopib": "ln -s /Users/johan/Projets/jopiWorkspace/_jopi-loader/jopi-loader/bin/jopib.js ~/.nvm/versions/node/v24.5.0/bin/jopib"
   },
 
   "devDependencies": {
