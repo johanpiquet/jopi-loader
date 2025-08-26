@@ -1,6 +1,6 @@
 {
   "name": "jopi-loader",
-  "version": "1.0.13",
+  "version": "1.1.2",
   "private": false,
   "license": "MIT",
   "keywords": ["loader"],
@@ -24,7 +24,7 @@
     "build": "npx tsgo",
     "tsc": "npx tsc",
 
-    "bun-publish": "bun publish",
+    "bun-publish": "npx tsc && bun publish",
 
     "remove-global": "npm remove jopi-loader --global",
     "update-global": "npm install jopi-loader@latest --global",
@@ -37,8 +37,8 @@
     "@types/bun": "latest"
   },
   "dependencies": {
-    "@jopi-loader/tools": "workspace: *",
-    "@jopi-loader/types": "workspace: *"
+    "@jopi-loader/tools": "workspace:*",
+    "@jopi-loader/types": "workspace:*"
   },
 
   "nodeSwitch": true,
