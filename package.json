@@ -14,7 +14,13 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-
+  "files": [
+    "dist",
+    "bin",
+    "README.md",
+    "LICENSE",
+    "src"
+  ],
   "bin": {
     "jopin": "bin/jopin.js",
     "jopib": "bin/jopib.js"
@@ -29,8 +35,8 @@
     "remove-global": "npm remove jopi-loader --global",
     "update-global": "npm install jopi-loader@latest --global",
 
-    "install-jopin": "rm ~/.bun/bin/jopin; ln -s /Users/johan/Projets/jopiWorkspace/_jopi-loader/jopi-loader/bin/jopin.js ~/.bun/bin/jopin",
-    "install-jopib": "rm  ~/.bun/bin/jopib; ln -s /Users/johan/Projets/jopiWorkspace/_jopi-loader/jopi-loader/bin/jopib.js ~/.bun/bin/jopib"
+    "install-jopin": "rm ~/.bun/bin/jopin; ln -s /Users/johan/Projets/jopi-rewrite-workspace/_jopi-loader/jopi-loader/bin/jopin.js ~/.bun/bin/jopin",
+    "install-jopib": "rm  ~/.bun/bin/jopib; ln -s /Users/johan/Projets/jopi-rewrite-workspace/_jopi-loader/jopi-loader/bin/jopib.js ~/.bun/bin/jopib"
   },
 
   "devDependencies": {
