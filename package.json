@@ -1,6 +1,6 @@
 {
   "name": "jopi-loader",
-  "version": "1.1.6",
+  "version": "1.1.9",
   "private": false,
   "license": "MIT",
   "keywords": ["loader"],
@@ -29,15 +29,15 @@
     "remove-global": "npm remove jopi-loader --global",
     "update-global": "npm install jopi-loader@latest --global",
 
-    "install-jopin": "ln -s /Users/johan/Projets/jopiWorkspace/_jopi-loader/jopi-loader/bin/jopin.js ~/.nvm/versions/node/v24.5.0/bin/jopin",
-    "install-jopib": "ln -s /Users/johan/Projets/jopiWorkspace/_jopi-loader/jopi-loader/bin/jopib.js ~/.nvm/versions/node/v24.5.0/bin/jopib"
+    "install-jopin": "rm ~/.bun/bin/jopin; ln -s /Users/johan/Projets/jopiWorkspace/_jopi-loader/jopi-loader/bin/jopin.js ~/.bun/bin/jopin",
+    "install-jopib": "rm  ~/.bun/bin/jopib; ln -s /Users/johan/Projets/jopiWorkspace/_jopi-loader/jopi-loader/bin/jopib.js ~/.bun/bin/jopib"
   },
 
   "devDependencies": {
     "@types/bun": "latest"
   },
   "dependencies": {
-    "@jopi-loader/tools": "workspace:^1.1.5",
+    "@jopi-loader/tools": "workspace:^1.1.6",
     "@jopi-loader/types": "workspace:^1.1.4"
   },
 
