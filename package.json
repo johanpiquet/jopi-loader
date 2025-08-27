@@ -36,7 +36,9 @@
     "update-global": "npm install jopi-loader@latest --global",
 
     "install-jopin": "rm ~/.bun/bin/jopin; ln -s /Users/johan/Projets/jopi-rewrite-workspace/_jopi-loader/jopi-loader/bin/jopin.js ~/.bun/bin/jopin",
-    "install-jopib": "rm  ~/.bun/bin/jopib; ln -s /Users/johan/Projets/jopi-rewrite-workspace/_jopi-loader/jopi-loader/bin/jopib.js ~/.bun/bin/jopib"
+    "install-jopib": "rm  ~/.bun/bin/jopib; ln -s /Users/johan/Projets/jopi-rewrite-workspace/_jopi-loader/jopi-loader/bin/jopib.js ~/.bun/bin/jopib",
+
+    "untrack": "git rm -r --cached -- ./dist/**;"
   },
 
   "devDependencies": {
