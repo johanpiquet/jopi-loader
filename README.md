@@ -84,43 +84,42 @@ Once installed, you use it as a drop-in replacement for node.js.
 Where you type `node` now you type `jopin'.
 The tool is available once the package `jopi-loader` is installed.
 
-### Configuring
-
-Extra sections in `package.json` allows to configure the tool behaviors.
-
-#### Watching dirs
+### Watching dirs
 
 `jopin` automatically watch source change when you are not in production mode.
 To disable it:
 * You must set the environment variable `NODE_ENV` to value 'production'.
 * Or disable it by using the settings in `package.json`.
 
-```json title="Sample package.json"
+**Sample package.json:**
+```json
 {
   "scripts": {},
   "dependencies": {},
-  "watch": false,   // disable watching
-  "watch": true,    // enable it, even if production mode
-  "watch": [        // extra directories to watch
-    "./www",
-    "./res"
-  ]
+  "jopi": {
+    "watch": true   // enable it, even if production mode
+  }
 }
 ```
 
-#### Setting extra preload
+### Setting extra preload
 
-This allows setting another library for preloading.
-It's mainly used for plugins customizing the behaviors of `jopin`.
+`jopin` preload the package `jopi-loader`. If required, you can use a setting inside `package.json` in order to preload other packages. 
 
-```json title="Sample package.json"
+**Sample package.json:**
+```json 
 {
   "scripts": {},
   "dependencies": {},
-  "preload": [
-    "my-first-package-to-preload",
-    "my-second-package-to-preload"
-  ]
+  "jopi": {
+    "preload": [
+      // To known: this package must be present in your 'node_modules'.
+      // Installing them globally doesn't work.
+      //
+      "my-first-package-to-preload",
+      "my-second-package-to-preload"
+    ]
+  }
 }
 ```
 
