@@ -1,9 +1,6 @@
 import * as NodeModule from 'node:module';
 
 import "jopi-node-space";
-
-// Allow initializing his core and stop some difficulties with import orders.
-import "jopi-rewrite";
 import {installBunJsLoader} from "@jopi-loader/tools";
 
 // Guard to avoid recursive self-registration when using Module.register(import.meta.url)
