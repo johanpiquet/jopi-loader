@@ -124,6 +124,27 @@ To disable it:
 ```
 
 > The package `jopi-rewrite` is always imported if found in your dependencies.
+ 
+### Recompiling sources
+
+If you are using node.js and TypeScript, you need to recompile sources when a change occurs.
+It's only once recompiled that the node.js watching system (on which we are relying) detects the changes.
+
+For this reason, you need to execute `tsc --watch` before executing jopin.
+
+It's the thing than can be automatized, for that you only need to add a entry named `jopiWatch` in the `scripts`
+section of your `package.json`. jopin will automatically execute this task, and kill it when exiting.
+
+**Sample package.json**
+
+```json
+{
+  "scripts": {
+    "jopiWatch": "tsc --watch"
+  }
+}
+```
+
 
 ### Integrating browser auto-refresh
 
