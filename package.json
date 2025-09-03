@@ -1,6 +1,6 @@
 {
   "name": "jopi-loader",
-  "version": "1.0.13",
+  "version": "1.0.20",
   "private": false,
   "license": "MIT",
   "keywords": ["loader"],
@@ -45,8 +45,8 @@
     "@types/bun": "latest"
   },
   "dependencies": {
-    "@jopi-loader/tools": "workspace:^1.0.11",
-    "@jopi-loader/types": "workspace:^1.0.0"
+    "@jopi-loader/tools": "workspace:^1.0.18",
+    "@jopi-loader/types": "workspace:^1.0.7"
   },
 
   "nodeSwitch": true,
