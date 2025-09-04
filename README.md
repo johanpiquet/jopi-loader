@@ -145,7 +145,6 @@ section of your `package.json`. jopin will automatically execute this task, and 
 }
 ```
 
-
 ### Integrating browser auto-refresh
 
 `jopin` allows automatic refresh of the browser when a source change is found.
