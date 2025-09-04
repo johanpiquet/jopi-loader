@@ -1,13 +1,13 @@
 {
   "name": "jopi-loader",
-  "version": "1.0.21",
+  "version": "1.0.25",
   "private": false,
   "license": "MIT",
   "keywords": ["loader"],
   "description": "Node ESM loader to take in charge non-JS assets (.scss/.sass/.css, images, fonts)",
 
   "engines": {
-    "bun": "^1.2.18",
+    "bun": ">=1.2.18",
     "node": ">=22.18.0"
   },
 
@@ -21,10 +21,6 @@
     "LICENSE",
     "src"
   ],
-  "bin": {
-    "jopin": "bin/jopin.js",
-    "jopib": "bin/jopib.js"
-  },
 
   "scripts": {
     "build": "npx tsc",
@@ -45,8 +41,8 @@
     "@types/bun": "latest"
   },
   "dependencies": {
-    "@jopi-loader/tools": "workspace:^1.0.19",
-    "@jopi-loader/types": "workspace:^1.0.8"
+    "@jopi-loader/tools": "workspace:^1.0.20",
+    "@jopi-loader/types": "workspace:^1.0.9"
   },
 
   "nodeSwitch": true,
