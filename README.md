@@ -4,7 +4,7 @@
 
 It's a loader, which has two goals:
 * Allowing custom imports for node.js and bun.js.
-* Offer watcher doing automatic restart on file change and automatic browser refresh.
+* Offer watcher doing automatic restart on file change and automatic browser refresh (--jopi-dev).
 
 ## Custom imports
 
@@ -86,10 +86,11 @@ The tool is available once the package `jopi-loader` is installed.
 
 ### Watching dirs
 
-`jopin` automatically watch source change when you are not in production mode.
-To disable it:
-* You must set the environment variable `NODE_ENV` to value 'production'.
-* Or disable it by using the settings in `package.json`.
+`jopin` automatically enable watching source changes.
+
+To enabling, you have to use the option `--jopi-dev`.
+
+To enable it, you can also use an option into the `package.json` file.
 
 **Sample package.json:**
 ```json
@@ -97,7 +98,7 @@ To disable it:
   "scripts": {},
   "dependencies": {},
   "jopi": {
-    "watch": true   // enable it, even if production mode
+    "watch": true
   }
 }
 ```
@@ -147,7 +148,7 @@ section of your `package.json`. jopin will automatically execute this task, and 
 
 ### Integrating browser auto-refresh
 
-`jopin` allows automatic refresh of the browser when a source change is found.
+`jopin` allows automatic refresh of the browser when a source change is found (required `--jopi-dev` option).
 It's a functionality that is straightforward to add in your server code.
 
 To do it, you have to use this function of the library `@jopi-loader/client`:
