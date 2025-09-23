@@ -41,8 +41,8 @@
     "@types/bun": "latest"
   },
   "dependencies": {
-    "@jopi-loader/tools": "workspace:^1.0.33",
-    "@jopi-loader/types": "workspace:^1.0.13"
+    "@jopi-loader/tools": "workspace:^",
+    "@jopi-loader/types": "workspace:^"
   },
 
   "nodeSwitch": true,
