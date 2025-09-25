@@ -1,6 +1,6 @@
 {
   "name": "jopi-loader",
-  "version": "1.0.30",
+  "version": "1.0.32",
   "private": false,
   "license": "MIT",
   "keywords": ["loader"],
@@ -46,5 +46,5 @@
   },
 
   "nodeSwitch": true,
-  "nodeSwitch-default": "node"
+  "nodeSwitch-default": "node","publishedDate": "9/25/2025","publicPublishedDate": "9/25/2025"
 }
