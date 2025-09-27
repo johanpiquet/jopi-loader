@@ -6,20 +6,29 @@
   "keywords": ["loader"],
   "description": "Node ESM loader to take in charge non-JS assets (.scss/.sass/.css, images, fonts)",
 
+  "publishedDate": "9/25/2025",
+  "publicPublishedDate": "9/25/2025",
+
   "engines": {
     "bun": ">=1.2.18",
     "node": ">=22.18.0"
   },
 
   "type": "module",
-  "main": "dist/index.js",
   "types": "dist/index.d.ts",
+
+  "exports": {
+    ".": "./dist/index.js",
+    "./loader": "./loader.mjs"
+  },
+
   "files": [
     "dist",
     "bin",
     "README.md",
     "LICENSE",
-    "src"
+    "src",
+    "loader.mjs"
   ],
 
   "scripts": {
@@ -43,8 +52,5 @@
   "dependencies": {
     "@jopi-loader/tools": "workspace:^",
     "@jopi-loader/types": "workspace:^"
-  },
-
-  "nodeSwitch": true,
-  "nodeSwitch-default": "node","publishedDate": "9/25/2025","publicPublishedDate": "9/25/2025"
+  }
 }
