@@ -1,12 +1,12 @@
 {
   "name": "jopi-loader",
-  "version": "1.0.32",
+  "version": "1.0.33",
   "private": false,
   "license": "MIT",
   "keywords": ["loader"],
   "description": "Node ESM loader to take in charge non-JS assets (.scss/.sass/.css, images, fonts)",
 
-  "publishedDate": "9/25/2025",
+  "publishedDate": "9/29/2025",
   "publicPublishedDate": "9/25/2025",
 
   "engines": {
@@ -35,6 +35,7 @@
     "build": "npx tsc",
     "tsc": "npx tsc",
 
+    "clean": "rm -rf ./dist; rm -rf .turbo; rm tsconfig.tsbuildinfo",
     "bun-publish": "npx tsc && bun publish",
 
     "remove-global": "npm remove jopi-loader --global",
