@@ -10,7 +10,6 @@
   "publishedDate": "9/29/2025",
   "publicPublishedDate": "9/25/2025",
   "engines": {
-    "bun": ">=1.2.18",
     "node": ">=22.18.0"
   },
   "type": "module",
