@@ -3,25 +3,22 @@
   "version": "1.0.33",
   "private": false,
   "license": "MIT",
-  "keywords": ["loader"],
+  "keywords": [
+    "loader"
+  ],
   "description": "Node ESM loader to take in charge non-JS assets (.scss/.sass/.css, images, fonts)",
-
   "publishedDate": "9/29/2025",
   "publicPublishedDate": "9/25/2025",
-
   "engines": {
     "bun": ">=1.2.18",
     "node": ">=22.18.0"
   },
-
   "type": "module",
   "types": "dist/index.d.ts",
-
   "exports": {
     ".": "./dist/index.js",
     "./loader": "./loader.mjs"
   },
-
   "files": [
     "dist",
     "bin",
@@ -30,28 +27,20 @@
     "src",
     "loader.mjs"
   ],
-
   "scripts": {
     "build": "npx tsc",
     "tsc": "npx tsc",
-
     "clean": "rm -rf ./dist; rm -rf .turbo; rm tsconfig.tsbuildinfo",
     "bun-publish": "npx tsc && bun publish",
-
-    "remove-global": "npm remove jopi-loader --global",
-    "update-global": "npm install jopi-loader@latest --global",
-
-    "install-jopin": "rm ~/.bun/bin/jopin; ln -s /Users/johan/Projets/jopi-rewrite-workspace/_jopi-loader/jopi-loader/bin/jopin.js ~/.bun/bin/jopin",
-    "install-jopib": "rm  ~/.bun/bin/jopib; ln -s /Users/johan/Projets/jopi-rewrite-workspace/_jopi-loader/jopi-loader/bin/jopib.js ~/.bun/bin/jopib",
-
-    "untrack": "git rm -r --cached -- ./dist/**;"
+    "install:jopin": "rm ~/.bun/bin/jopin; ln -s /Users/johan/Projets/jopi-rewrite-workspace/_jopi-loader/jopi-loader/bin/jopin.js ~/.bun/bin/jopin",
+    "install:jopib": "rm  ~/.bun/bin/jopib; ln -s /Users/johan/Projets/jopi-rewrite-workspace/_jopi-loader/jopi-loader/bin/jopib.js ~/.bun/bin/jopib",
+    "tool:untrack": "git rm -r --cached -- ./dist/**;"
   },
-
   "devDependencies": {
     "@types/bun": "latest"
   },
   "dependencies": {
-    "@jopi-loader/tools": "workspace:^",
-    "@jopi-loader/types": "workspace:^"
+    "@jopi-loader/tools": "*",
+    "@jopi-loader/types": "*"
   }
 }
